@@ -1,104 +1,38 @@
-\# Nova UART Transmitter (VHDL)
+A VHDL project running on the **Digilent Cmod S7** FPGA. It demonstrates a custom UART controller that cyclically sends the message **"Nova"** to a computer.
 
+What it does
+* **Sends Data:** Transmits the text "Nova" + New Line every second.
+* **Visual Feedback:** The onboard LED blinks to show the system is alive.
+* **User Control:** Pressing `BTN0` resets the transmission.
 
+Hardware Setup
 
-A robust, synthesizable VHDL implementation of a UART Transmitter designed for the \*\*Digilent Cmod S7\*\* FPGA board (Xilinx Spartan-7).
-
-
-
-The project demonstrates a hardware-based Finite State Machine (FSM) that cyclically transmits the string \*\*"Nova"\*\* to a PC via a serial interface, featuring visual status feedback and debounce-free reset logic.
-
-
-
-\## Hardware Specifications
-
-
-
-\* \*\*Target Board:\*\* Digilent Cmod S7 (xc7s25csga225-1)
-
-\* \*\*FPGA Family:\*\* Xilinx Spartan-7
-
-\* \*\*System Clock:\*\* 12 MHz
-
-\* \*\*Language:\*\* VHDL-2008
-
-\* \*\*Logic Utilization:\*\* < 1% (Pure Logic implementation)
-
-
-
-\## UART Configuration
-
-
-
-To receive the data correctly, configure your Serial Terminal (Tera Term, PuTTY, RealTerm) as follows:
-
-
-
-| Parameter | Value |
-
+| Component | Detail |
 | :--- | :--- |
+| **FPGA Board** | Digilent Cmod S7 (Spartan-7) |
+| **Clock** | 12 MHz |
+| **Output Pin** | L12 (UART TX) |
+| **Reset Pin** | D2 (Button 0) |
 
-| \*\*Baud Rate\*\* | \*\*115200\*\* |
+Connection Settings
+To see the message, open your Serial Terminal (like Tera Term or PuTTY) and use these exact settings:
 
-| \*\*Data Bits\*\* | 8 |
+| Setting | Value |
+| :--- | :--- |
+| **Baud Rate** | **115200** |
+| **Data Bits** | 8 |
+| **Parity** | None |
+| **Stop Bits** | 1 |
 
-| \*\*Parity\*\* | None |
+Project Structure
 
-| \*\*Stop Bits\*\* | 1 |
+* `src/Top.vhd` - **The Brain.** Controls the timing and sends characters one by one.
+* `src/uart_tx.vhd` - **The Worker.** Handles the low-level serialization of bits.
+* `constraints/` - Pin mapping files (.xdc).
 
-| \*\*Flow Control\*\* | None |
-
-
-
-\## Project Architecture
-
-
-
-The design is modular and consists of two main entities:
-
-
-
-\### 1. `uart\_tx.vhd` (Core Driver)
-
-A generic UART transmitter module responsible for parallel-to-serial conversion.
-
-\* \*\*Features:\*\* Configurable Baud Rate via generics, Busy flag for flow control.
-
-\* \*\*FSM States:\*\* `IDLE` -> `START\_BIT` -> `DATA\_BITS` -> `STOP\_BIT`.
-
-\* \*\*Timing:\*\* Uses a precise counter to derive the baud rate from the 12 MHz system clock.
-
-
-
-\### 2. `Top.vhd` (Controller)
-
-The top-level logic that manages the transmission sequence.
-
-\* \*\*ROM:\*\* Stores the ASCII message: `\['N', 'o', 'v', 'a', CR, LF]`.
-
-\* \*\*Timer:\*\* Triggers the transmission sequence every \*\*1 second\*\*.
-
-\* \*\*Heartbeat:\*\* Blinks the onboard LED (Pin E2) to indicate system activity.
-
-\* \*\*Handshake:\*\* Monitors the UART Core's `busy` signal to ensure data integrity during transmission.
-
-
-
-\## Directory Structure
-
-
-
-Nova-UART-FPGA/
-
-├── src/                # VHDL Source files
-
-│   ├── Top.vhd       	 # Top Level Entity \& FSM
-
-│   └── uart\_tx.vhd     # UART Transmitter Core
-
-├── cns/        	 # Physical constraints
-
-│   └── Pins.xdc        # Pin mapping for Digilent Cmod S7
-
-└── README.md           # Project documentation
-
+How to use
+1. **Clone** this repo.
+2. Open **Vivado** and create a project for **XC7S25**.
+3. Add files from `src` and `constraints`.
+4. Generate Bitstream & Program the device.
+5. Enjoy the "Nova" stream on your terminal!

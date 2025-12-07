@@ -35,4 +35,4 @@ How to use
 2. Open **Vivado** and create a project for **XC7S25**.
 3. Add files from `src` and `constraints`.
 4. Generate Bitstream & Program the device.
-5. Enjoy the "Nova" stream on your terminal!
+5. Congrats, it should work.

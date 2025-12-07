@@ -15,7 +15,7 @@ Hardware Setup
 | **Reset Pin** | D2 (Button 0) |
 
 Connection Settings
-To see the message, open your Serial Terminal (like Tera Term or PuTTY) and use these exact settings:
+To see the message, open your Serial Terminal and use these settings:
 
 | Setting | Value |
 | :--- | :--- |
@@ -26,13 +26,14 @@ To see the message, open your Serial Terminal (like Tera Term or PuTTY) and use 
 
 Project Structure
 
-* `src/Top.vhd` - **The Brain.** Controls the timing and sends characters one by one.
-* `src/uart_tx.vhd` - **The Worker.** Handles the low-level serialization of bits.
-* `constraints/` - Pin mapping files (.xdc).
+* `src/Top.vhd` - Controls the timing and sends characters one by one.
+* `src/uart_tx.vhd` - Handles the low-level serialization of bits.
+* `cns/` - Pin mapping files (.xdc).
 
 How to use
 1. **Clone** this repo.
 2. Open **Vivado** and create a project for **XC7S25**.
-3. Add files from `src` and `constraints`.
+3. Add files from `src` and `cns`.
 4. Generate Bitstream & Program the device.
 5. Congrats, it should work.
+
